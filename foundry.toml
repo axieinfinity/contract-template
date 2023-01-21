@@ -1,0 +1,13 @@
+[profile.default]
+src = 'src'
+out = 'out'
+libs = ['lib', 'party']
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config
+solc = '0.8.17'
+evm_version = 'istanbul'
+cache_path = 'cache/foundry'
+
+[fmt]
+line_length = 120
+tab_width = 2
