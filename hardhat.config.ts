@@ -50,7 +50,7 @@ const config: HardhatUserConfig = {
   paths: {
     sources: './src',
     cache: './cache/hardhat',
-    deploy: ['./scripts/deploy', './scripts/schedules'],
+    deploy: ['./scripts/deploy'],
   },
   namedAccounts: {
     deployer: 0,

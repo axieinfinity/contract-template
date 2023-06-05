@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
-const deploy = async ({ getNamedAccounts, deployments, network }: HardhatRuntimeEnvironment) => {
+const deploy = async ({ getNamedAccounts, deployments }: HardhatRuntimeEnvironment) => {
   const { deploy } = deployments;
   let { deployer } = await getNamedAccounts();
 
