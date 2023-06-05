@@ -1,0 +1,48 @@
+{
+  "name": "contract-template",
+  "main": "index.js",
+  "author": "Axie Infinity Engineering <engineering@axieinfinity.com>",
+  "version": "1.0.0",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "clean": "hardhat clean && forge cl",
+    "compile": "hardhat compile && forge build",
+    "deploy": "hardhat deploy",
+    "test": "hardhat test",
+    "test:all": "forge test && hardhat test",
+    "prepare": "husky install",
+    "fmt": "yarn prettier --write 'scripts/**/**.{js,ts}' 'hardhat.config.ts' && forge fmt"
+  },
+  "lint-staged": {
+    "src/**/*.sol": "forge fmt --",
+    "test/**/*.sol": "forge fmt --",
+    "scripts/**/**.{js,ts}": "prettier --write",
+    "hardhat.config.ts": "prettier --write"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-foundry": "^1.0.1",
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@typechain/ethers-v5": "^10.0.0",
+    "@typechain/hardhat": "^6.0.0",
+    "@types/chai": "^4.3.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.45",
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.6.6",
+    "hardhat": "^2.9.5",
+    "hardhat-deploy": "^0.11.26",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.8",
+    "ts-node": "^10.7.0",
+    "typechain": "^8.0.0",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {}
+}
