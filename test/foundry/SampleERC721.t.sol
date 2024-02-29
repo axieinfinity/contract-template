@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import {ERC721Nonce} from "../../src/refs/ERC721Nonce.sol";
-import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
+import {Strings} from "../../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
 import {SampleERC721, ERC721Common} from "../../src/mock/SampleERC721.sol";
 
 contract SampleERC721Test is Test {
