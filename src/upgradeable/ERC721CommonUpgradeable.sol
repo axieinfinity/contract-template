@@ -10,6 +10,9 @@ abstract contract ERC721CommonUpgradeable is
   ERC721PresetMinterPauserAutoIdCustomizedUpgradeable,
   IERC721State
 {
+  error ErrInvalidArrayLength();
+  error ErrNonExistentToken();
+
   constructor() {
     _disableInitializers();
   }
@@ -18,12 +21,12 @@ abstract contract ERC721CommonUpgradeable is
    * @inheritdoc IERC721State
    */
   function stateOf(uint256 _tokenId) external view virtual override returns (bytes memory) {
-    require(_exists(_tokenId), "ERC721Common: query for non-existent token");
+    if (!_exists(_tokenId)) revert ErrNonExistentToken();
     return abi.encodePacked(ownerOf(_tokenId), nonces[_tokenId], _tokenId);
   }
 
   /**
-   * @dev Override `ERC721-_baseURI`.
+   * @dev Override `ERC721Upgradeable-_baseURI`.
    */
   function _baseURI()
     internal
@@ -49,7 +52,7 @@ abstract contract ERC721CommonUpgradeable is
   }
 
   /**
-   * @dev Override `ERC721PresetMinterPauserAutoIdCustomized-_beforeTokenTransfer`.
+   * @dev Override `ERC721PresetMinterPauserAutoIdCustomizedUpgradeable-_beforeTokenTransfer`.
    */
   function _beforeTokenTransfer(address _from, address _to, uint256 _firstTokenId, uint256 _batchSize)
     internal
@@ -76,7 +79,7 @@ abstract contract ERC721CommonUpgradeable is
     onlyRole(MINTER_ROLE)
     returns (uint256[] memory _tokenIds)
   {
-    require(_recipients.length > 0, "ERC721Common: invalid array lengths");
+    if (_recipients.length == 0) revert ErrInvalidArrayLength();
     _tokenIds = new uint256[](_recipients.length);
 
     for (uint256 _i = 0; _i < _recipients.length; _i++) {

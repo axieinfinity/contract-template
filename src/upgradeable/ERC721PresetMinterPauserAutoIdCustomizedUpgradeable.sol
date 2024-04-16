@@ -37,6 +37,8 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
   ERC721BurnableUpgradeable,
   ERC721PausableUpgradeable
 {
+  error ErrUnauthorizedAccount(address account, bytes32 neededRole);
+
   using CountersUpgradeable for CountersUpgradeable.Counter;
 
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -95,7 +97,9 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
    * - the caller must have the `MINTER_ROLE`.
    */
   function mint(address to) public virtual returns (uint256 tokenId) {
-    require(hasRole(MINTER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have minter role to mint");
+    address sender = _msgSender();
+    if (!hasRole(MINTER_ROLE, sender)) revert ErrUnauthorizedAccount(sender, MINTER_ROLE);
+
     tokenId = _mintFor(to);
   }
 
@@ -109,7 +113,9 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
    * - the caller must have the `PAUSER_ROLE`.
    */
   function pause() public virtual {
-    require(hasRole(PAUSER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have pauser role to pause");
+    address sender = _msgSender();
+    if (!hasRole(PAUSER_ROLE, sender)) revert ErrUnauthorizedAccount(sender, PAUSER_ROLE);
+
     _pause();
   }
 
@@ -123,7 +129,9 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
    * - the caller must have the `PAUSER_ROLE`.
    */
   function unpause() public virtual {
-    require(hasRole(PAUSER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have pauser role to unpause");
+    address sender = _msgSender();
+    if (!hasRole(PAUSER_ROLE, sender)) revert ErrUnauthorizedAccount(sender, PAUSER_ROLE);
+
     _unpause();
   }
 
