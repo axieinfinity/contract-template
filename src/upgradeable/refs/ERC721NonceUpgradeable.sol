@@ -21,7 +21,7 @@ abstract contract ERC721NonceUpgradeable is ERC721Upgradeable {
   uint256[50] private ______gap;
 
   /**
-   * @dev Override `ERC721-_beforeTokenTransfer`.
+   * @dev Override `ERC721Upgradeable-_beforeTokenTransfer`.
    */
   function _beforeTokenTransfer(address _from, address _to, uint256 _firstTokenId, uint256 _batchSize)
     internal
