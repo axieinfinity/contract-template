@@ -8,6 +8,9 @@ solc = '0.8.17'
 evm_version = 'istanbul'
 cache_path = 'cache/foundry'
 
+extra_output = ["devdoc", "userdoc", "storagelayout"]
+fs_permissions = [{ access = "read-write", path = "./" }]
+
 [fmt]
 line_length = 120
 tab_width = 2
