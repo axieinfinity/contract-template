@@ -1,8 +1,0 @@
-src/refs/ERC721Nonce.sol:ERC721Nonce:_name (storage_slot: 0) (offset: 0) (type: string) (numberOfBytes: 32)
-src/refs/ERC721Nonce.sol:ERC721Nonce:_symbol (storage_slot: 1) (offset: 0) (type: string) (numberOfBytes: 32)
-src/refs/ERC721Nonce.sol:ERC721Nonce:_owners (storage_slot: 2) (offset: 0) (type: mapping(uint256 => address)) (numberOfBytes: 32)
-src/refs/ERC721Nonce.sol:ERC721Nonce:_balances (storage_slot: 3) (offset: 0) (type: mapping(address => uint256)) (numberOfBytes: 32)
-src/refs/ERC721Nonce.sol:ERC721Nonce:_tokenApprovals (storage_slot: 4) (offset: 0) (type: mapping(uint256 => address)) (numberOfBytes: 32)
-src/refs/ERC721Nonce.sol:ERC721Nonce:_operatorApprovals (storage_slot: 5) (offset: 0) (type: mapping(address => mapping(address => bool))) (numberOfBytes: 32)
-src/refs/ERC721Nonce.sol:ERC721Nonce:nonces (storage_slot: 6) (offset: 0) (type: mapping(uint256 => uint256)) (numberOfBytes: 32)
-src/refs/ERC721Nonce.sol:ERC721Nonce:______gap (storage_slot: 7) (offset: 0) (type: uint256[50]) (numberOfBytes: 1600)
