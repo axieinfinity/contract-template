@@ -12,5 +12,6 @@ extra_output = ["devdoc", "userdoc", "storagelayout"]
 fs_permissions = [{ access = "read-write", path = "./" }]
 
 [fmt]
-line_length = 120
 tab_width = 2
+line_length = 120
+bracket_spacing = true

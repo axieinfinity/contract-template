@@ -1,16 +1,20 @@
 // SPDX-License-Identifier: MIT
-// OpenZeppelin Contracts (last updated v4.9.0) (token/ERC721/presets/ERC721PresetMinterPauserAutoId.sol)
-
 pragma solidity ^0.8.0;
 
-import "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol";
-import "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
-import "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
-import "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721PausableUpgradeable.sol";
-import "../../lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlEnumerableUpgradeable.sol";
-import "../../lib/openzeppelin-contracts-upgradeable/contracts/utils/ContextUpgradeable.sol";
-import "../../lib/openzeppelin-contracts-upgradeable/contracts/utils/CountersUpgradeable.sol";
-import {Initializable} from "../../lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
+import { ERC721Upgradeable } from
+  "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol";
+import { ERC721EnumerableUpgradeable } from
+  "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
+import { ERC721BurnableUpgradeable } from
+  "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
+import { ERC721PausableUpgradeable } from
+  "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721PausableUpgradeable.sol";
+import { AccessControlEnumerableUpgradeable } from
+  "../../lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlEnumerableUpgradeable.sol";
+import { ContextUpgradeable } from "../../lib/openzeppelin-contracts-upgradeable/contracts/utils/ContextUpgradeable.sol";
+import { CountersUpgradeable } from
+  "../../lib/openzeppelin-contracts-upgradeable/contracts/utils/CountersUpgradeable.sol";
+import { Initializable } from "../../lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
 
 /**
  * @dev {ERC721} token, including:
