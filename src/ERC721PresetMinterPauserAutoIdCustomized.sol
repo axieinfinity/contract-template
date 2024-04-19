@@ -8,6 +8,7 @@ import "../lib/openzeppelin-contracts/contracts/token/ERC721/extensions/ERC721Pa
 import "../lib/openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol";
 import "../lib/openzeppelin-contracts/contracts/utils/Context.sol";
 import "../lib/openzeppelin-contracts/contracts/utils/Counters.sol";
+import "./interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
 
 /**
  * @dev ERC721PresetMinterPauserAutoId is a customized version of
@@ -118,7 +119,8 @@ contract ERC721PresetMinterPauserAutoIdCustomized is
     override(AccessControlEnumerable, ERC721, ERC721Enumerable)
     returns (bool)
   {
-    return super.supportsInterface(interfaceId);
+    return
+      interfaceId == type(IERC721PresetMinterPauserAutoIdCustomized).interfaceId || super.supportsInterface(interfaceId);
   }
 
   /**

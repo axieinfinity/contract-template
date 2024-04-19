@@ -2,9 +2,12 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import {ERC721Nonce} from "../../src/refs/ERC721Nonce.sol";
-import {Strings} from "../../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
-import {SampleERC721, ERC721Common} from "../../src/mock/SampleERC721.sol";
+import { ERC721Nonce } from "../../src/refs/ERC721Nonce.sol";
+import { Strings } from "../../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
+import { SampleERC721, ERC721Common } from "../../src/mock/SampleERC721.sol";
+import { IERC721Common } from "src/interfaces/IERC721Common.sol";
+import { IERC721PresetMinterPauserAutoIdCustomized } from "src/interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
+import { IERC721State } from "src/interfaces/IERC721State.sol";
 
 contract SampleERC721Test is Test {
   using Strings for uint256;
@@ -67,6 +70,12 @@ contract SampleERC721Test is Test {
     _transferFrom(_to, _from, _tokenId);
     bytes32 _state1 = keccak256(_token().stateOf(_tokenId));
     assertNotEq(_state0, _state1);
+  }
+
+  function testSupportInterface() public {
+    assertEq(_token().supportsInterface(type(IERC721State).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC721PresetMinterPauserAutoIdCustomized).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC721Common).interfaceId), true);
   }
 
   function _mint(address _user) internal virtual returns (uint256 _tokenId, uint256 _nonce) {

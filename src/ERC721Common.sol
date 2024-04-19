@@ -2,17 +2,16 @@
 pragma solidity ^0.8.0;
 
 import "./interfaces/IERC721State.sol";
+import "./interfaces/IERC721Common.sol";
 import "./refs/ERC721Nonce.sol";
 import "./ERC721PresetMinterPauserAutoIdCustomized.sol";
 
-abstract contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, IERC721State {
+abstract contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, IERC721State, IERC721Common {
   constructor(string memory name, string memory symbol, string memory baseTokenURI)
     ERC721PresetMinterPauserAutoIdCustomized(name, symbol, baseTokenURI)
   { }
 
-  /**
-   * @inheritdoc IERC721State
-   */
+  /// @inheritdoc IERC721State
   function stateOf(uint256 _tokenId) external view virtual override returns (bytes memory) {
     require(_exists(_tokenId), "ERC721Common: query for non-existent token");
     return abi.encodePacked(ownerOf(_tokenId), nonces[_tokenId], _tokenId);
@@ -41,7 +40,8 @@ abstract contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCus
     override(ERC721, ERC721PresetMinterPauserAutoIdCustomized)
     returns (bool)
   {
-    return super.supportsInterface(interfaceId);
+    return interfaceId == type(IERC721Common).interfaceId || interfaceId == type(IERC721State).interfaceId
+      || super.supportsInterface(interfaceId);
   }
 
   /**
