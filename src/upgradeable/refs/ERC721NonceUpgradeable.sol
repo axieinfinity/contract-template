@@ -32,9 +32,13 @@ abstract contract ERC721NonceUpgradeable is ERC721Upgradeable {
     virtual
     override
   {
-    for (uint256 tokenId = firstTokenId; tokenId < firstTokenId + batchSize; tokenId++) {
-      emit NonceUpdated(tokenId, ++_nonceOf[tokenId]);
+    uint256 length = firstTokenId + batchSize;
+    unchecked {
+      for (uint256 tokenId = firstTokenId; tokenId < length; ++tokenId) {
+        emit NonceUpdated(tokenId, ++_nonceOf[tokenId]);
+      }
+
+      super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
     }
-    super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
   }
 }
