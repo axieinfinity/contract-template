@@ -19,7 +19,7 @@ abstract contract ERC721NonceUpgradeable is ERC721Upgradeable {
    * @dev This empty reserved space is put in place to allow future versions to add new
    * variables without shifting down storage in the inheritance chain.
    */
-  uint256[50] private ______gap;
+  uint256[50] private __gap;
 
   function nonces(uint256 tokenId) public view returns (uint256) {
     return _nonceOf[tokenId];

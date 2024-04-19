@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import { ERC721Upgradeable } from
+import {ERC721Upgradeable} from
   "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol";
-import { IERC721State } from "../refs/IERC721State.sol";
-import { ERC721NonceUpgradeable } from "./refs/ERC721NonceUpgradeable.sol";
-import { ERC721PresetMinterPauserAutoIdCustomizedUpgradeable } from
+import {IERC721State} from "../refs/IERC721State.sol";
+import {ERC721NonceUpgradeable} from "./refs/ERC721NonceUpgradeable.sol";
+import {ERC721PresetMinterPauserAutoIdCustomizedUpgradeable} from
   "./ERC721PresetMinterPauserAutoIdCustomizedUpgradeable.sol";
 
 abstract contract ERC721CommonUpgradeable is
