@@ -4,10 +4,13 @@ out = 'out'
 libs = ['lib', 'party']
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
-solc = '0.8.17'
 evm_version = 'istanbul'
 cache_path = 'cache/foundry'
 
+extra_output = ["devdoc", "userdoc", "storagelayout"]
+fs_permissions = [{ access = "read-write", path = "./" }]
+
 [fmt]
-line_length = 120
 tab_width = 2
+line_length = 120
+bracket_spacing = true
