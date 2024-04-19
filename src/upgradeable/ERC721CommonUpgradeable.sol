@@ -13,6 +13,12 @@ abstract contract ERC721CommonUpgradeable is
   error ErrInvalidArrayLength();
   error ErrNonExistentToken();
 
+  /**
+   * @dev This empty reserved space is put in place to allow future versions to add new
+   * variables without shifting down storage in the inheritance chain.
+   */
+  uint256[50] private __gap;
+
   /// @custom:oz-upgrades-unsafe-allow constructor
   constructor() {
     _disableInitializers();
