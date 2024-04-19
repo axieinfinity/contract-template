@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.22;
 
 import { ERC721Upgradeable } from
   "../../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol";
@@ -13,7 +13,7 @@ abstract contract ERC721NonceUpgradeable is ERC721Upgradeable {
   event NonceUpdated(uint256 indexed tokenId, uint256 indexed nonce);
 
   /// @dev Mapping from token id => token nonce.
-  mapping(uint256 => uint256) private _nonceOf;
+  mapping(uint256 tokenId => uint256 nonce) private _nonceOf;
 
   /**
    * @dev This empty reserved space is put in place to allow future versions to add new
