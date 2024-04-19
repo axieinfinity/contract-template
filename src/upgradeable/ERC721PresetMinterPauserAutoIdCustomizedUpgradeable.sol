@@ -72,7 +72,6 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
     __ERC721_init_unchained(name, symbol);
     __Pausable_init_unchained();
     __ERC721PresetMinterPauserAutoId_init_unchained(name, symbol, baseTokenURI);
-    _tokenIdTracker.increment();
   }
 
   function __ERC721PresetMinterPauserAutoId_init_unchained(string memory, string memory, string memory baseTokenURI)
@@ -85,6 +84,8 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
 
     _setupRole(MINTER_ROLE, _msgSender());
     _setupRole(PAUSER_ROLE, _msgSender());
+
+    _tokenIdTracker.increment();
   }
 
   /**
