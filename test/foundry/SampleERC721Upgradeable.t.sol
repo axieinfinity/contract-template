@@ -14,9 +14,11 @@ import { IERC721EnumerableUpgradeable } from
 import {
   SampleERC721Upgradeable,
   ERC721CommonUpgradeable,
-  ERC721PresetMinterPauserAutoIdCustomizedUpgradeable,
-  IERC721State
+  ERC721PresetMinterPauserAutoIdCustomizedUpgradeable
 } from "src/mock/SampleERC721Upgradeable.sol";
+import { IERC721Common } from "src/interfaces/IERC721Common.sol";
+import { IERC721PresetMinterPauserAutoIdCustomized } from "src/interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
+import { IERC721State } from "src/interfaces/IERC721State.sol";
 
 contract SampleERC721Upgradeable_Test is Test {
   using Strings for uint256;
@@ -93,6 +95,9 @@ contract SampleERC721Upgradeable_Test is Test {
     assertEq(_token().supportsInterface(type(IERC721Upgradeable).interfaceId), true);
     assertEq(_token().supportsInterface(type(IAccessControlEnumerableUpgradeable).interfaceId), true);
     assertEq(_token().supportsInterface(type(IERC721EnumerableUpgradeable).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC721State).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC721PresetMinterPauserAutoIdCustomized).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC721Common).interfaceId), true);
   }
 
   function _mint(address _user) internal virtual returns (uint256 tokenId, uint256 nonce) {
