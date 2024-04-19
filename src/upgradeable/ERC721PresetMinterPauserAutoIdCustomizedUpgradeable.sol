@@ -18,21 +18,9 @@ import { Initializable } from "../../lib/openzeppelin-contracts-upgradeable/cont
 import { IERC721PresetMinterPauserAutoIdCustomized } from "../interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
 
 /**
- * @dev {ERC721} token, including:
- *
- *  - ability for holders to burn (destroy) their tokens
- *  - a minter role that allows for token minting (creation)
- *  - a pauser role that allows to stop all token transfers
- *  - token ID and URI autogeneration
- *
- * This contract uses {AccessControl} to lock permissioned functions using the
- * different roles - head to its documentation for details.
- *
- * The account that deploys the contract will be granted the minter and pauser
- * roles, as well as the default admin role, which will let it grant both minter
- * and pauser roles to other accounts.
- *
- * _Deprecated in favor of https://wizard.openzeppelin.com/[Contracts Wizard]._
+ * @dev ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is a customized version of
+ * openzeppelin-contracts-upgradeable/contracts/token/ERC721/presets/ERC721PresetMinterPauserAutoIdUpgradeable.sol to change the private counter and
+ * base token URI into internal, mainly to support the inherited contracts.
  */
 contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
   Initializable,
