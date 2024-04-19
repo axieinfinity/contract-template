@@ -6,6 +6,11 @@ import { ERC721NonceUpgradeable } from "src/upgradeable/refs/ERC721NonceUpgradea
 import { Strings } from "../../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
 import { TransparentUpgradeableProxy } from
   "../../lib/openzeppelin-contracts/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import { IERC721Upgradeable } from "lib/openzeppelin-contracts-upgradeable/contracts/interfaces/IERC721Upgradeable.sol";
+import { IAccessControlEnumerableUpgradeable } from
+  "lib/openzeppelin-contracts-upgradeable/contracts/access/IAccessControlEnumerableUpgradeable.sol";
+import { IERC721EnumerableUpgradeable } from
+  "lib/openzeppelin-contracts-upgradeable/contracts/interfaces/IERC721EnumerableUpgradeable.sol";
 import {
   SampleERC721Upgradeable,
   ERC721CommonUpgradeable,
@@ -16,7 +21,7 @@ import {
 contract SampleERC721Upgradeable_Test is Test {
   using Strings for uint256;
 
-  event NonceUpdated(uint256 indexed _tokenId, uint256 indexed _nonce);
+  event NonceUpdated(uint256 indexed tokenId, uint256 indexed nonce);
 
   string public constant NAME = "SampleERC721";
   string public constant SYMBOL = "NFT";
@@ -33,7 +38,7 @@ contract SampleERC721Upgradeable_Test is Test {
       abi.encodeCall(ERC721PresetMinterPauserAutoIdCustomizedUpgradeable.initialize, (NAME, SYMBOL, BASE_URI));
     TransparentUpgradeableProxy proxy =
       new TransparentUpgradeableProxy(address(new SampleERC721Upgradeable()), _proxyAdmin, initializeData);
-    _t = SampleERC721Upgradeable(address(proxy));
+    _testToken = SampleERC721Upgradeable(address(proxy));
   }
 
   function testName() public virtual {
@@ -45,54 +50,60 @@ contract SampleERC721Upgradeable_Test is Test {
   }
 
   function testFirstTokenId() public virtual {
-    (uint256 _tokenId,) = _mint(address(1));
-    assertNotEq(_tokenId, 0);
+    (uint256 tokenId,) = _mint(address(1));
+    assertNotEq(tokenId, 0);
   }
 
-  function testTokenURI(address _from) public virtual {
-    vm.assume(_from.code.length == 0 && _from != address(0));
-    (uint256 _tokenId,) = _mint(_from);
-    assertEq(_token().tokenURI(_tokenId), string(abi.encodePacked(BASE_URI, _tokenId.toString())));
+  function testTokenURI(address from) public virtual {
+    vm.assume(from.code.length == 0 && from != address(0));
+    (uint256 tokenId,) = _mint(from);
+    assertEq(_token().tokenURI(tokenId), string(abi.encodePacked(BASE_URI, tokenId.toString())));
   }
 
-  function testNonce(address _from, address _to, uint256 _transferTimes) public virtual {
-    vm.assume(_from.code.length == 0 && _to.code.length == 0 && _from != address(0) && _to != address(0));
-    vm.assume(_transferTimes > 0 && _transferTimes < 10);
-    (uint256 _tokenId, uint256 _nonce) = _mint(_from);
+  function testNonce(address from, address to, uint256 transferTimes) public virtual {
+    vm.assume(from.code.length == 0 && to.code.length == 0 && from != address(0) && to != address(0));
+    vm.assume(transferTimes > 0 && transferTimes < 10);
+    (uint256 tokenId, uint256 nonce) = _mint(from);
 
-    for (uint256 _i; _i < _transferTimes; _i++) {
+    for (uint256 _i; _i < transferTimes; _i++) {
       vm.expectEmit(true, true, true, true, address(_token()));
-      emit NonceUpdated(_tokenId, ++_nonce);
-      _transferFrom(_from, _to, _tokenId);
+      emit NonceUpdated(tokenId, ++nonce);
+      _transferFrom(from, to, tokenId);
 
       vm.expectEmit(true, true, true, true, address(_token()));
-      emit NonceUpdated(_tokenId, ++_nonce);
-      _transferFrom(_to, _from, _tokenId);
+      emit NonceUpdated(tokenId, ++nonce);
+      _transferFrom(to, from, tokenId);
     }
 
-    assertEq(_nonce, _token().nonces(_tokenId));
+    assertEq(nonce, _token().nonces(tokenId));
   }
 
-  function testState(address _from, address _to) public virtual {
-    vm.assume(_from.code.length == 0 && _to.code.length == 0 && _from != address(0) && _to != address(0));
-    (uint256 _tokenId,) = _mint(_from);
+  function testState(address from, address to) public virtual {
+    vm.assume(from.code.length == 0 && to.code.length == 0 && from != address(0) && to != address(0));
+    (uint256 tokenId,) = _mint(from);
 
-    bytes32 _state0 = keccak256(_token().stateOf(_tokenId));
-    _transferFrom(_from, _to, _tokenId);
-    _transferFrom(_to, _from, _tokenId);
-    bytes32 _state1 = keccak256(_token().stateOf(_tokenId));
+    bytes32 _state0 = keccak256(_token().stateOf(tokenId));
+    _transferFrom(from, to, tokenId);
+    _transferFrom(to, from, tokenId);
+    bytes32 _state1 = keccak256(_token().stateOf(tokenId));
     assertNotEq(_state0, _state1);
   }
 
-  function _mint(address _user) internal virtual returns (uint256 _tokenId, uint256 _nonce) {
+  function testSupportInterface() public {
+    assertEq(_token().supportsInterface(type(IERC721Upgradeable).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IAccessControlEnumerableUpgradeable).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC721EnumerableUpgradeable).interfaceId), true);
+  }
+
+  function _mint(address _user) internal virtual returns (uint256 tokenId, uint256 nonce) {
     _token().mint(_user);
     uint256 _balance = _token().balanceOf(_user);
     return (_token().tokenOfOwnerByIndex(_user, _balance - 1), 1);
   }
 
-  function _transferFrom(address _from, address _to, uint256 _tokenId) internal virtual {
-    vm.prank(_from);
-    _token().transferFrom(_from, _to, _tokenId);
+  function _transferFrom(address from, address to, uint256 tokenId) internal virtual {
+    vm.prank(from);
+    _token().transferFrom(from, to, tokenId);
   }
 
   function _token() internal view virtual returns (ERC721CommonUpgradeable) {
