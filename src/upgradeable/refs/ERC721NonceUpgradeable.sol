@@ -9,10 +9,10 @@ import "../../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/E
  */
 abstract contract ERC721NonceUpgradeable is ERC721Upgradeable {
   /// @dev Emitted when the token nonce is updated
-  event NonceUpdated(uint256 indexed _tokenId, uint256 indexed _nonce);
+  event NonceUpdated(uint256 indexed tokenId, uint256 indexed nonce);
 
-  /// @dev Mapping from token id => token nonce
-  mapping(uint256 => uint256) public nonces;
+  /// @dev Mapping from token id => token nonce.
+  mapping(uint256 => uint256) private _nonceOf;
 
   /**
    * @dev This empty reserved space is put in place to allow future versions to add new
@@ -20,17 +20,21 @@ abstract contract ERC721NonceUpgradeable is ERC721Upgradeable {
    */
   uint256[50] private ______gap;
 
+  function nonces(uint256 tokenId) public view returns (uint256) {
+    return _nonceOf[tokenId];
+  }
+
   /**
    * @dev Override `ERC721Upgradeable-_beforeTokenTransfer`.
    */
-  function _beforeTokenTransfer(address _from, address _to, uint256 _firstTokenId, uint256 _batchSize)
+  function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize)
     internal
     virtual
     override
   {
-    for (uint256 _tokenId = _firstTokenId; _tokenId < _firstTokenId + _batchSize; _tokenId++) {
-      emit NonceUpdated(_tokenId, ++nonces[_tokenId]);
+    for (uint256 tokenId = firstTokenId; tokenId < firstTokenId + batchSize; tokenId++) {
+      emit NonceUpdated(tokenId, ++_nonceOf[tokenId]);
     }
-    super._beforeTokenTransfer(_from, _to, _firstTokenId, _batchSize);
+    super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
   }
 }
