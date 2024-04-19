@@ -2,9 +2,9 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import {ERC721NonceUpgradeable} from "src/upgradeable/refs/ERC721NonceUpgradeable.sol";
-import {Strings} from "../../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
-import {TransparentUpgradeableProxy} from
+import { ERC721NonceUpgradeable } from "src/upgradeable/refs/ERC721NonceUpgradeable.sol";
+import { Strings } from "../../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
+import { TransparentUpgradeableProxy } from
   "../../lib/openzeppelin-contracts/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 import {
   SampleERC721Upgradeable,
@@ -23,8 +23,8 @@ contract SampleERC721Upgradeable_Test is Test {
   string public constant BASE_URI = "http://example.com/";
 
   address _proxyAdmin;
-
-  ERC721CommonUpgradeable internal _t;
+  // token test
+  ERC721CommonUpgradeable internal _testToken;
 
   function setUp() public virtual {
     _proxyAdmin = makeAddr("proxy-admin");
@@ -96,6 +96,6 @@ contract SampleERC721Upgradeable_Test is Test {
   }
 
   function _token() internal view virtual returns (ERC721CommonUpgradeable) {
-    return _t;
+    return _testToken;
   }
 }
