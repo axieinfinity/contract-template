@@ -151,14 +151,6 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
     return super.supportsInterface(interfaceId);
   }
 
-  function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize)
-    internal
-    virtual
-    override(ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721PausableUpgradeable)
-  {
-    super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
-  }
-
   /**
    * @dev Helper function to mint for address `to`.
    *
@@ -181,5 +173,13 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
    */
   function _baseURI() internal view virtual override returns (string memory) {
     return _baseTokenURI;
+  }
+
+  function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize)
+    internal
+    virtual
+    override(ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721PausableUpgradeable)
+  {
+    super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
   }
 }
