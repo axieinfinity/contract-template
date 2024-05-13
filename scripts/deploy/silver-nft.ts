@@ -4,14 +4,19 @@ const deploy = async ({ getNamedAccounts, deployments }: HardhatRuntimeEnvironme
   const { deploy } = deployments;
   let { deployer } = await getNamedAccounts();
 
-  await deploy('SampleERC721', {
+  await deploy('Erc1155DangDang', {
     from: deployer,
     log: true,
-    args: ['SampleERC721', 'NFT', ''],
+    args: [
+      'Erc1155DangDang',
+      'Erc1155DangDang',
+      'https://raw.githubusercontent.com/HoangNguyen17193/cdn/main/',
+      ['0xb4b58cdc14edbf998762e1592f457e3385885818'],
+    ],
   });
 };
 
-deploy.tags = ['SampleERC721'];
+deploy.tags = ['Erc1155DangDang'];
 deploy.dependencies = ['VerifyContracts'];
 
 export default deploy;
