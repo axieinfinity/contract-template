@@ -8,12 +8,12 @@ interface INFTLaunchpad {
    * @dev Mint NFTs for the launchpad.
    *
    * Requirements:
-   * 	- The mintedTokenIds and mintedAmounts should have the same length.
-   * 	- For ERC721 NFTs, each minted token's quantity should always be 1.
-   * 	- For ERC1155 NFTs, each minted token's quantity should be actual minted amounts.
-   * Example:
-   * 	- ERC1155: If mintedTokenIds = [1, 2], then mintedAmounts = [10, 20]
-   * 	- ERC721: If mintedTokenIds = [1, 2], then mintedAmounts = [1, 1]
+   *  - The mintedTokenIds and mintedAmounts should have the same length.
+   *  - For ERC721 NFTs, each minted token's quantity should always be 1.
+   *  - For ERC1155 NFTs, each minted token's quantity should be actual minted amounts.
+   * Examples:
+   *  - ERC1155: If mintedTokenIds = [1, 2], then mintedAmounts = [10, 20]
+   *  - ERC721: If mintedTokenIds = [1, 2], then mintedAmounts = [1, 1]
    *
    * @param to The address to mint the NFTs to.
    * @param quantity The quantity of NFTs to mint.
