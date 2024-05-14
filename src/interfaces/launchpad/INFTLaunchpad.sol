@@ -9,8 +9,11 @@ interface INFTLaunchpad {
    *
    * Requirements:
    *  - The mintedTokenIds and mintedAmounts should have the same length.
+   *  - The mintedTokenIds array should be unique.
    *  - For ERC721 NFTs, each minted token's quantity should always be 1.
    *  - For ERC1155 NFTs, each minted token's quantity should be actual minted amounts.
+   *  - The total of minted amounts can be different from the input `quantity`.
+   *
    * Examples:
    *  - ERC1155: If mintedTokenIds = [1, 2], then mintedAmounts = [10, 20]
    *  - ERC721: If mintedTokenIds = [1, 2], then mintedAmounts = [1, 1]
