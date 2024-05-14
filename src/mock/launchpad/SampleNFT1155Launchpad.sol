@@ -19,17 +19,16 @@ contract SampleNFT1155Launchpad is ERC1155, AccessControl, INFTLaunchpad {
     onlyRole(MINTER_ROLE)
     returns (uint256[] memory tokenIds, uint256[] memory amounts)
   {
-    uint256 length = 2;
+    _mint(to, 3, quantity, "");
+    _mint(to, 4, 1, "");
 
-    tokenIds = new uint256[](length);
-    amounts = new uint256[](length);
+    tokenIds = new uint256[](2);
+    amounts = new uint256[](2);
+    tokenIds[0] = 3;
+    tokenIds[1] = 4;
 
-    for (uint256 i; i < length; ++i) {
-      tokenIds[i] = i == 0 ? 3 : 4;
-      amounts[i] = i == 0 ? quantity : 1;
-
-      _mint(to, tokenIds[i], amounts[i], "");
-    }
+    amounts[0] = quantity;
+    amounts[1] = 1;
   }
 
   function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, AccessControl) returns (bool) {
