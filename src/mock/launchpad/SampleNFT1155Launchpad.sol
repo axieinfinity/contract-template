@@ -14,7 +14,7 @@ contract SampleNFT1155Launchpad is ERC1155, AccessControl, INFTLaunchpad {
   }
 
   /// @dev Mint NFTs for the launchpad.
-  function mintLaunchpad(address to, uint256 quantity, bytes memory /* extraData */ )
+  function mintLaunchpad(address to, uint256 quantity, bytes calldata /* extraData */ )
     external
     onlyRole(MINTER_ROLE)
     returns (uint256[] memory tokenIds, uint256[] memory amounts)

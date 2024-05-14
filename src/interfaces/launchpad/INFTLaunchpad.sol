@@ -24,7 +24,7 @@ interface INFTLaunchpad {
    * @return mintedTokenIds The token IDs of the minted NFTs.
    * @return mintedAmounts The minted amounts according to the `mintedTokenIds`.
    */
-  function mintLaunchpad(address to, uint256 quantity, bytes memory extraData)
+  function mintLaunchpad(address to, uint256 quantity, bytes calldata extraData)
     external
     returns (uint256[] memory mintedTokenIds, uint256[] memory mintedAmounts);
 }

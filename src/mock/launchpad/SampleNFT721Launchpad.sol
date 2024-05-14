@@ -7,10 +7,10 @@ import { ERC165 } from "../../../lib/openzeppelin-contracts/contracts/utils/intr
 import { INFTLaunchpad } from "../../interfaces/launchpad/INFTLaunchpad.sol";
 
 contract SampleNFT721Launchpad is SampleERC721, INFTLaunchpad {
-  constructor(string memory name, string memory symbol) SampleERC721(name, symbol, "sample uri") { }
+  constructor(string memory name_, string memory symbol_, string memory uri_) SampleERC721(name_, symbol_, uri_) { }
 
   /// @dev Mint NFTs for the launchpad.
-  function mintLaunchpad(address to, uint256 quantity, bytes memory /* extraData */ )
+  function mintLaunchpad(address to, uint256 quantity, bytes calldata /* extraData */ )
     external
     onlyRole(MINTER_ROLE)
     returns (uint256[] memory tokenIds, uint256[] memory amounts)
