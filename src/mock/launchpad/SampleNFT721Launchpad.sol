@@ -5,8 +5,11 @@ import { SampleERC721 } from "../SampleERC721.sol";
 import { ERC165 } from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import { INFTLaunchpad } from "../../interfaces/launchpad/INFTLaunchpad.sol";
+import { SampleERC721 } from "../SampleERC721.sol";
+import { ERC721Common } from "../../ERC721Common.sol";
+import { NFTLaunchpad } from "../../launchpad/NFTLaunchpad.sol";
 
-contract SampleNFT721Launchpad is SampleERC721, INFTLaunchpad {
+contract SampleNFT721Launchpad is SampleERC721, NFTLaunchpad {
   constructor(string memory name_, string memory symbol_, string memory uri_) SampleERC721(name_, symbol_, uri_) { }
 
   /// @dev Mint NFTs for the launchpad.
@@ -23,7 +26,13 @@ contract SampleNFT721Launchpad is SampleERC721, INFTLaunchpad {
     }
   }
 
-  function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(ERC721Common, NFTLaunchpad)
+    returns (bool)
+  {
     return interfaceId == type(INFTLaunchpad).interfaceId || super.supportsInterface(interfaceId);
   }
 }
