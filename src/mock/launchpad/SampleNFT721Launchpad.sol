@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.22;
+pragma solidity ^0.8.19;
 
 import { SampleERC721 } from "../SampleERC721.sol";
 import { ERC165 } from "../../../lib/openzeppelin-contracts/contracts/utils/introspection/ERC165.sol";
