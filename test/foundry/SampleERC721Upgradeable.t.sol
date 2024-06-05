@@ -6,6 +6,7 @@ import { ERC721NonceUpgradeable } from "src/upgradeable/refs/ERC721NonceUpgradea
 import { Strings } from "../../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
 import { TransparentUpgradeableProxy } from
   "../../lib/openzeppelin-contracts/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import { ProxyAdmin } from "../../lib/openzeppelin-contracts/contracts/proxy/transparent/ProxyAdmin.sol";
 import { IERC721Upgradeable } from "lib/openzeppelin-contracts-upgradeable/contracts/interfaces/IERC721Upgradeable.sol";
 import { IAccessControlEnumerableUpgradeable } from
   "lib/openzeppelin-contracts-upgradeable/contracts/access/IAccessControlEnumerableUpgradeable.sol";
@@ -29,12 +30,12 @@ contract SampleERC721Upgradeable_Test is Test {
   string public constant SYMBOL = "NFT";
   string public constant BASE_URI = "http://example.com/";
 
-  address _proxyAdmin;
+	address internal _proxyAdmin;
   // token test
   ERC721CommonUpgradeable internal _testToken;
 
   function setUp() public virtual {
-    _proxyAdmin = makeAddr("proxy-admin");
+    _proxyAdmin = address(new ProxyAdmin());
 
     bytes memory initializeData =
       abi.encodeCall(ERC721PresetMinterPauserAutoIdCustomizedUpgradeable.initialize, (NAME, SYMBOL, BASE_URI));

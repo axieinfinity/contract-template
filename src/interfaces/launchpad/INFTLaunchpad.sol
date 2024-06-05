@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.22;
+pragma solidity ^0.8.19;
 
 /// @dev Interface for the NFT contract that compatible with the NFT launchpad.
 /// MUST be included ERC165 interface to support the detection of the contract's capabilities.
