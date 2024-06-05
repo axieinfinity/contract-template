@@ -30,7 +30,7 @@ contract SampleERC721Upgradeable_Test is Test {
   string public constant SYMBOL = "NFT";
   string public constant BASE_URI = "http://example.com/";
 
-	address internal _proxyAdmin;
+  address internal _proxyAdmin;
   // token test
   ERC721CommonUpgradeable internal _testToken;
 
