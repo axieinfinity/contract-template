@@ -41,8 +41,8 @@ const config: HardhatUserConfig = {
       optimizer: {
         enabled: true,
         runs: 200,
-			},
       },
+    },
   },
   typechain: {
     outDir: './scripts/typechain-types',
