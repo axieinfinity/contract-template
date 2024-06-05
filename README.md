@@ -13,7 +13,7 @@ forge test
 
 ```bash
 npm install
-npx run test
+npm run test
 # or
 yarn
 yarn test
@@ -24,6 +24,20 @@ yarn test
 ```bash
 git submodule update --init --recursive
 ```
+
+## Deployment
+
+- Saigon testnet:
+
+    ```bash
+    yarn deploy --network ronin-testnet
+    ```
+
+- Ronin mainnet:
+
+    ```bash
+    yarn deploy --network ronin-mainnet
+    ```
 
 ## Features
 

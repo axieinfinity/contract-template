@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 import '@nomiclabs/hardhat-waffle';
 import '@typechain/hardhat';
 import '@nomicfoundation/hardhat-foundry';

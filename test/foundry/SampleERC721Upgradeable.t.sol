@@ -3,15 +3,14 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
 import { ERC721NonceUpgradeable } from "src/upgradeable/refs/ERC721NonceUpgradeable.sol";
-import { Strings } from "../../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
-import { TransparentUpgradeableProxy } from
-  "../../lib/openzeppelin-contracts/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
-import { ProxyAdmin } from "../../lib/openzeppelin-contracts/contracts/proxy/transparent/ProxyAdmin.sol";
-import { IERC721Upgradeable } from "lib/openzeppelin-contracts-upgradeable/contracts/interfaces/IERC721Upgradeable.sol";
+import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
+import { TransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
+import { IERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/interfaces/IERC721Upgradeable.sol";
 import { IAccessControlEnumerableUpgradeable } from
-  "lib/openzeppelin-contracts-upgradeable/contracts/access/IAccessControlEnumerableUpgradeable.sol";
+  "@openzeppelin/contracts-upgradeable/access/IAccessControlEnumerableUpgradeable.sol";
 import { IERC721EnumerableUpgradeable } from
-  "lib/openzeppelin-contracts-upgradeable/contracts/interfaces/IERC721EnumerableUpgradeable.sol";
+  "@openzeppelin/contracts-upgradeable/interfaces/IERC721EnumerableUpgradeable.sol";
 import {
   SampleERC721Upgradeable,
   ERC721CommonUpgradeable,

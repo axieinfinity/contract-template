@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import { ERC1155 } from "../../../lib/openzeppelin-contracts/contracts/token/ERC1155/ERC1155.sol";
-import { AccessControl } from "../../../lib/openzeppelin-contracts/contracts/access/AccessControl.sol";
+import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
 import { INFTLaunchpad } from "../../interfaces/launchpad/INFTLaunchpad.sol";
 
 contract SampleNFT1155Launchpad is ERC1155, AccessControl, INFTLaunchpad {
