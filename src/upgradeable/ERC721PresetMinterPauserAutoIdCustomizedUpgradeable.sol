@@ -1,20 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import { ERC721Upgradeable } from
-  "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/ERC721Upgradeable.sol";
+import { ERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import { ERC721EnumerableUpgradeable } from
-  "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
+  "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import { ERC721BurnableUpgradeable } from
-  "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
+  "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
 import { ERC721PausableUpgradeable } from
-  "../../lib/openzeppelin-contracts-upgradeable/contracts/token/ERC721/extensions/ERC721PausableUpgradeable.sol";
+  "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721PausableUpgradeable.sol";
 import { AccessControlEnumerableUpgradeable } from
-  "../../lib/openzeppelin-contracts-upgradeable/contracts/access/AccessControlEnumerableUpgradeable.sol";
-import { ContextUpgradeable } from "../../lib/openzeppelin-contracts-upgradeable/contracts/utils/ContextUpgradeable.sol";
-import { CountersUpgradeable } from
-  "../../lib/openzeppelin-contracts-upgradeable/contracts/utils/CountersUpgradeable.sol";
-import { Initializable } from "../../lib/openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
+  "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
+import { ContextUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
+import { CountersUpgradeable } from "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import { IERC721PresetMinterPauserAutoIdCustomized } from "../interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
 
 /**
