@@ -2,7 +2,6 @@
 pragma solidity ^0.8.19;
 
 import { SampleERC721 } from "../SampleERC721.sol";
-import { ERC165 } from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import { SampleERC721 } from "../SampleERC721.sol";
 import { ERC721Common } from "../../ERC721Common.sol";
