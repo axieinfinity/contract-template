@@ -23,7 +23,6 @@ wrap_comments = true
 [dependencies]
 "openzeppelin" = { version = "5.0.2", url = "https://github.com/OpenZeppelin/openzeppelin-contracts/archive/refs/tags/v5.0.2.zip" }
 "openzeppelin-upgradeable" = { version = "5.0.2", url = "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/archive/refs/tags/v5.0.2.zip" }
-contract-template = { version = "0.1.0", url = "https://github.com/axieinfinity/contract-template/archive/refs/tags/release-v0.1.0.zip" }
 forge-std = { version = "1.9.3", url = "https://github.com/foundry-rs/forge-std/archive/refs/tags/v1.9.3.zip" }
 
 [soldeer]
