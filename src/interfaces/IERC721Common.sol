@@ -13,5 +13,7 @@ interface IERC721Common {
    *
    * - the caller must have the `MINTER_ROLE`.
    */
-  function bulkMint(address[] calldata recipients) external returns (uint256[] memory tokenIds);
+  function bulkMint(
+    address[] calldata recipients
+  ) external returns (uint256[] memory tokenIds);
 }

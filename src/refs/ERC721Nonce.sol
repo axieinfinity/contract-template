@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 /**
  * @title ERC721Nonce
- * @dev This contract provides a nonce that will be increased whenever the token is tranferred.
+ * @dev This contract provides a nonce that will be increased whenever the token is transferred.
  */
 abstract contract ERC721Nonce is ERC721 {
   /// @dev Emitted when the token nonce is updated
@@ -21,16 +21,10 @@ abstract contract ERC721Nonce is ERC721 {
   uint256[50] private ______gap;
 
   /**
-   * @dev Override `ERC721-_beforeTokenTransfer`.
+   * @dev Override `ERC721-_update`.
    */
-  function _beforeTokenTransfer(address _from, address _to, uint256 _firstTokenId, uint256 _batchSize)
-    internal
-    virtual
-    override
-  {
-    for (uint256 _tokenId = _firstTokenId; _tokenId < _firstTokenId + _batchSize; _tokenId++) {
-      emit NonceUpdated(_tokenId, ++nonces[_tokenId]);
-    }
-    super._beforeTokenTransfer(_from, _to, _firstTokenId, _batchSize);
+  function _update(address to, uint256 tokenId, address auth) internal virtual override returns (address) {
+    emit NonceUpdated(tokenId, ++nonces[tokenId]);
+    return super._update(to, tokenId, auth);
   }
 }

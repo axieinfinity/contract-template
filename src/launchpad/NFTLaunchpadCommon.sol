@@ -7,7 +7,9 @@ import { INFTLaunchpad } from "../interfaces/launchpad/INFTLaunchpad.sol";
 
 abstract contract NFTLaunchpadCommon is IERC165, INFTLaunchpad {
   /// @dev Returns whether the contract supports the NFT launchpad interface.
-  function supportsInterface(bytes4 interfaceId) public view virtual returns (bool) {
+  function supportsInterface(
+    bytes4 interfaceId
+  ) public view virtual returns (bool) {
     return interfaceId == type(INFTLaunchpad).interfaceId;
   }
 }
