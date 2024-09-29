@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-import "./ERC721PresetMinterPauserAutoIdCustomized.sol";
-import "./interfaces/IERC721Common.sol";
-import "./interfaces/IERC721State.sol";
-import "./refs/ERC721Nonce.sol";
+import { ERC721PresetMinterPauserAutoIdCustomized } from "./ERC721PresetMinterPauserAutoIdCustomized.sol";
+import { IERC721Common } from "./interfaces/IERC721Common.sol";
+import { IERC721State } from "./interfaces/IERC721State.sol";
+import { ERC721Nonce } from "./refs/ERC721Nonce.sol";
+import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 abstract contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, IERC721State, IERC721Common {
   constructor(

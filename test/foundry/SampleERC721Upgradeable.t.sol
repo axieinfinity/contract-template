@@ -14,11 +14,10 @@ import "forge-std/Test.sol";
 import { IERC721Common } from "src/interfaces/IERC721Common.sol";
 import { IERC721PresetMinterPauserAutoIdCustomized } from "src/interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
 import { IERC721State } from "src/interfaces/IERC721State.sol";
-import {
-  ERC721CommonUpgradeable,
-  ERC721PresetMinterPauserAutoIdCustomizedUpgradeable,
-  SampleERC721Upgradeable
-} from "src/mock/SampleERC721Upgradeable.sol";
+import { ERC721CommonUpgradeable, SampleERC721Upgradeable } from "src/mock/SampleERC721Upgradeable.sol";
+
+import { ERC721PresetMinterPauserAutoIdCustomizedUpgradeable } from
+  "src/upgradeable/ERC721PresetMinterPauserAutoIdCustomizedUpgradeable.sol";
 import { ERC721NonceUpgradeable } from "src/upgradeable/refs/ERC721NonceUpgradeable.sol";
 
 contract SampleERC721Upgradeable_Test is Test {
