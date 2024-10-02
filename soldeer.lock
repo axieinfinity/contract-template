@@ -1,0 +1,27 @@
+[[dependencies]]
+name = "contract-template"
+version = "0.1.0"
+source = "https://github.com/axieinfinity/contract-template/archive/refs/tags/release-v0.1.0.zip"
+checksum = "56676e92b8825974abab8e381a98d0cc55da7057a18b3d325a13def760fa69d3"
+integrity = "9fda9db2e8c24bb37378b1a14f41e1338967d101282bcdc0df9e98d7cf0edcda"
+
+[[dependencies]]
+name = "forge-std"
+version = "1.9.3"
+source = "https://github.com/foundry-rs/forge-std/archive/refs/tags/v1.9.3.zip"
+checksum = "cc61148ae1a47f2415956a95ada670501b10ebd7f65cc00eda6ea7025770f42b"
+integrity = "d53734fbd7201cd9e44de730ae045ed8958dd2c7b9493c30b322f6e6c21ca8b2"
+
+[[dependencies]]
+name = "openzeppelin"
+version = "5.0.2"
+source = "https://github.com/OpenZeppelin/openzeppelin-contracts/archive/refs/tags/v5.0.2.zip"
+checksum = "ca49e0776066328da0087977864dfaef0d5e54a0ea9859236a7cd9ad02abb9e5"
+integrity = "6f8fc028520b958667ef1e96460c64140f42fef60ff02bc63110780c557b7c7e"
+
+[[dependencies]]
+name = "openzeppelin-upgradeable"
+version = "5.0.2"
+source = "https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/archive/refs/tags/v5.0.2.zip"
+checksum = "4790d4f592cb46c868916ea50613997df1e28fd42b4d32e0999f0a4b9d1a7cf8"
+integrity = "085dfc37ec3b96f0ea95ae99d8c044b0b407eab88a78d7cb552284bccf1130ba"

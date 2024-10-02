@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
-import { ERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
-import { IERC721State } from "../interfaces/IERC721State.sol";
 import { IERC721Common } from "../interfaces/IERC721Common.sol";
-import { ERC721NonceUpgradeable } from "./refs/ERC721NonceUpgradeable.sol";
+import { IERC721State } from "../interfaces/IERC721State.sol";
+
 import { ERC721PresetMinterPauserAutoIdCustomizedUpgradeable } from
   "./ERC721PresetMinterPauserAutoIdCustomizedUpgradeable.sol";
+import { ERC721NonceUpgradeable } from "./refs/ERC721NonceUpgradeable.sol";
+import { ERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 
 abstract contract ERC721CommonUpgradeable is
   ERC721NonceUpgradeable,
@@ -29,18 +30,17 @@ abstract contract ERC721CommonUpgradeable is
   }
 
   /// @inheritdoc IERC721State
-  function stateOf(uint256 tokenId) external view virtual override returns (bytes memory) {
-    if (!_exists(tokenId)) revert ErrNonExistentToken();
+  function stateOf(
+    uint256 tokenId
+  ) external view virtual override returns (bytes memory) {
+    _requireOwned(tokenId);
     return abi.encodePacked(ownerOf(tokenId), nonces(tokenId), tokenId);
   }
 
   /// @inheritdoc IERC721Common
-  function bulkMint(address[] calldata recipients)
-    external
-    virtual
-    onlyRole(MINTER_ROLE)
-    returns (uint256[] memory tokenIds)
-  {
+  function bulkMint(
+    address[] calldata recipients
+  ) external virtual onlyRole(MINTER_ROLE) returns (uint256[] memory tokenIds) {
     uint256 length = recipients.length;
     if (length == 0) revert ErrInvalidArrayLength();
     tokenIds = new uint256[](length);
@@ -53,13 +53,9 @@ abstract contract ERC721CommonUpgradeable is
   /**
    * @dev Override `IERC165-supportsInterface`.
    */
-  function supportsInterface(bytes4 interfaceId)
-    public
-    view
-    virtual
-    override(ERC721Upgradeable, ERC721PresetMinterPauserAutoIdCustomizedUpgradeable)
-    returns (bool)
-  {
+  function supportsInterface(
+    bytes4 interfaceId
+  ) public view virtual override(ERC721Upgradeable, ERC721PresetMinterPauserAutoIdCustomizedUpgradeable) returns (bool) {
     return interfaceId == type(IERC721State).interfaceId || interfaceId == type(IERC721Common).interfaceId
       || super.supportsInterface(interfaceId);
   }
@@ -78,13 +74,28 @@ abstract contract ERC721CommonUpgradeable is
   }
 
   /**
-   * @dev Override `ERC721PresetMinterPauserAutoIdCustomizedUpgradeable-_beforeTokenTransfer`.
+   * @dev Override `ERC721PresetMinterPauserAutoIdCustomizedUpgradeable-_update`.
    */
-  function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize)
+  function _update(
+    address to,
+    uint256 tokenId,
+    address auth
+  )
     internal
     virtual
     override(ERC721NonceUpgradeable, ERC721PresetMinterPauserAutoIdCustomizedUpgradeable)
+    returns (address from)
   {
-    super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
+    return super._update(to, tokenId, auth);
+  }
+
+  /**
+   * @dev See {ERC721Upgradeable-_increaseBalance}.
+   */
+  function _increaseBalance(
+    address account,
+    uint128 amount
+  ) internal virtual override(ERC721Upgradeable, ERC721PresetMinterPauserAutoIdCustomizedUpgradeable) {
+    super._increaseBalance(account, amount);
   }
 }

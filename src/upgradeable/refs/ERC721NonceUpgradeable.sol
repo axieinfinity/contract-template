@@ -5,7 +5,7 @@ import { ERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/token/ERC
 
 /**
  * @title ERC721NonceUpgradeable
- * @dev This contract provides a nonce that will be increased whenever the token is tranferred.
+ * @dev This contract provides a nonce that will be increased whenever the token is transferred.
  */
 abstract contract ERC721NonceUpgradeable is ERC721Upgradeable {
   /// @dev Emitted when the token nonce is updated
@@ -20,25 +20,19 @@ abstract contract ERC721NonceUpgradeable is ERC721Upgradeable {
    */
   uint256[50] private __gap;
 
-  function nonces(uint256 tokenId) public view returns (uint256) {
+  function nonces(
+    uint256 tokenId
+  ) public view returns (uint256) {
     return _nonceOf[tokenId];
   }
 
   /**
-   * @dev Override `ERC721Upgradeable-_beforeTokenTransfer`.
+   * @dev Override `ERC721Upgradeable-_update`.
    */
-  function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize)
-    internal
-    virtual
-    override
-  {
-    uint256 length = firstTokenId + batchSize;
+  function _update(address to, uint256 tokenId, address auth) internal virtual override returns (address from) {
     unchecked {
-      for (uint256 tokenId = firstTokenId; tokenId < length; ++tokenId) {
-        emit NonceUpdated(tokenId, ++_nonceOf[tokenId]);
-      }
-
-      super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
+      emit NonceUpdated(tokenId, ++_nonceOf[tokenId]);
+      return super._update(to, tokenId, auth);
     }
   }
 }

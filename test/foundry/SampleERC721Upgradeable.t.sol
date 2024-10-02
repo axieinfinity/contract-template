@@ -1,24 +1,24 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/Test.sol";
-import { ERC721NonceUpgradeable } from "src/upgradeable/refs/ERC721NonceUpgradeable.sol";
-import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
-import { TransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import { IAccessControlEnumerable } from "@openzeppelin/contracts/access/extensions/IAccessControlEnumerable.sol";
+
 import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
-import { IERC721Upgradeable } from "@openzeppelin/contracts-upgradeable/interfaces/IERC721Upgradeable.sol";
-import { IAccessControlEnumerableUpgradeable } from
-  "@openzeppelin/contracts-upgradeable/access/IAccessControlEnumerableUpgradeable.sol";
-import { IERC721EnumerableUpgradeable } from
-  "@openzeppelin/contracts-upgradeable/interfaces/IERC721EnumerableUpgradeable.sol";
-import {
-  SampleERC721Upgradeable,
-  ERC721CommonUpgradeable,
-  ERC721PresetMinterPauserAutoIdCustomizedUpgradeable
-} from "src/mock/SampleERC721Upgradeable.sol";
+import { TransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
+import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import { IERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
+
+import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
+import "forge-std/Test.sol";
+
 import { IERC721Common } from "src/interfaces/IERC721Common.sol";
 import { IERC721PresetMinterPauserAutoIdCustomized } from "src/interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
 import { IERC721State } from "src/interfaces/IERC721State.sol";
+import { ERC721CommonUpgradeable, SampleERC721Upgradeable } from "src/mock/SampleERC721Upgradeable.sol";
+
+import { ERC721PresetMinterPauserAutoIdCustomizedUpgradeable } from
+  "src/upgradeable/ERC721PresetMinterPauserAutoIdCustomizedUpgradeable.sol";
+import { ERC721NonceUpgradeable } from "src/upgradeable/refs/ERC721NonceUpgradeable.sol";
 
 contract SampleERC721Upgradeable_Test is Test {
   using Strings for uint256;
@@ -34,7 +34,7 @@ contract SampleERC721Upgradeable_Test is Test {
   ERC721CommonUpgradeable internal _testToken;
 
   function setUp() public virtual {
-    _proxyAdmin = address(new ProxyAdmin());
+    _proxyAdmin = address(new ProxyAdmin(address(this)));
 
     bytes memory initializeData =
       abi.encodeCall(ERC721PresetMinterPauserAutoIdCustomizedUpgradeable.initialize, (NAME, SYMBOL, BASE_URI));
@@ -56,7 +56,9 @@ contract SampleERC721Upgradeable_Test is Test {
     assertNotEq(tokenId, 0);
   }
 
-  function testTokenURI(address from) public virtual {
+  function testTokenURI(
+    address from
+  ) public virtual {
     vm.assume(from.code.length == 0 && from != address(0));
     (uint256 tokenId,) = _mint(from);
     assertEq(_token().tokenURI(tokenId), string(abi.encodePacked(BASE_URI, tokenId.toString())));
@@ -91,16 +93,18 @@ contract SampleERC721Upgradeable_Test is Test {
     assertNotEq(_state0, _state1);
   }
 
-  function testSupportInterface() public {
-    assertEq(_token().supportsInterface(type(IERC721Upgradeable).interfaceId), true);
-    assertEq(_token().supportsInterface(type(IAccessControlEnumerableUpgradeable).interfaceId), true);
-    assertEq(_token().supportsInterface(type(IERC721EnumerableUpgradeable).interfaceId), true);
+  function testSupportInterface() public view {
+    assertEq(_token().supportsInterface(type(IERC721).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IAccessControlEnumerable).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC721Enumerable).interfaceId), true);
     assertEq(_token().supportsInterface(type(IERC721State).interfaceId), true);
     assertEq(_token().supportsInterface(type(IERC721PresetMinterPauserAutoIdCustomized).interfaceId), true);
     assertEq(_token().supportsInterface(type(IERC721Common).interfaceId), true);
   }
 
-  function _mint(address _user) internal virtual returns (uint256 tokenId, uint256 nonce) {
+  function _mint(
+    address _user
+  ) internal virtual returns (uint256 tokenId, uint256 nonce) {
     _token().mint(_user);
     uint256 _balance = _token().balanceOf(_user);
     return (_token().tokenOfOwnerByIndex(_user, _balance - 1), 1);
