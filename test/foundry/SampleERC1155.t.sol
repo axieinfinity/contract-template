@@ -2,8 +2,11 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
-import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
-import {SampleERC1155, ERC1155Common} from "../../src/mock/SampleERC1155.sol";
+import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
+import { SampleERC1155, ERC1155Common } from "../../src/mock/SampleERC1155.sol";
+import { IERC1155 } from "@openzeppelin/contracts/interfaces/IERC1155.sol";
+import { IAccessControlEnumerable } from "@openzeppelin/contracts/access/IAccessControlEnumerable.sol";
+import { IERC1155Common } from "src/interfaces/IERC1155Common.sol";
 
 contract SampleERC1155Test is Test {
   using Strings for uint256;
@@ -42,6 +45,12 @@ contract SampleERC1155Test is Test {
     assertEq(_token().totalSupply(15), 30);
     assertEq(_token().balanceOf(address(20), 15), 15);
     vm.stopPrank();
+  }
+
+  function testSupportsInterface() public virtual {
+    assertEq(_token().supportsInterface(type(IERC1155).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IAccessControlEnumerable).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC1155Common).interfaceId), true);
   }
 
   function _token() internal view virtual returns (ERC1155Common) {
