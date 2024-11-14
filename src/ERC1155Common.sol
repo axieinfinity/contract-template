@@ -11,7 +11,7 @@ import { ERC1155Supply } from "@openzeppelin/contracts/token/ERC1155/extensions/
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 import { IERC1155Common } from "./interfaces/IERC1155Common.sol";
 
-abstract contract ERC1155Common is
+contract ERC1155Common is
   ERC1155,
   AccessControlEnumerable,
   ERC1155Pausable,
