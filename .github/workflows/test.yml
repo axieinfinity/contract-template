@@ -5,14 +5,14 @@ on:
     branches:
       - main
       - dev
-      - 'feature/*'
-      - 'features/*'
+      - "feature/*"
+      - "features/*"
   pull_request:
     branches:
       - main
       - dev
-      - 'feature/*'
-      - 'features/*'
+      - "feature/*"
+      - "features/*"
 
 env:
   FOUNDRY_PROFILE: ci
@@ -23,14 +23,11 @@ jobs:
       fail-fast: true
 
     name: Foundry project
-    runs-on: [self-hosted, dockerize]
+    runs-on: ubuntu-latest
     steps:
-      - id: 'gh-app'
-        name: 'Get Token'
-        uses: 'tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a' #v1.7.0
+      - uses: actions/checkout@v4.1.1
         with:
-          app_id: ${{ secrets.GH_APP_ID }}
-          private_key: ${{ secrets.GH_PRIVATE_KEY }}
+          submodules: recursive
 
       - uses: actions/checkout@v4.1.1
         with:
