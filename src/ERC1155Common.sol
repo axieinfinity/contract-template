@@ -43,7 +43,7 @@ abstract contract ERC1155Common is
    * Requirements:
    * - the caller must have the `URI_SETTER_ROLE`.
    */
-  function setURI(string memory newURI) public onlyRole(URI_SETTER_ROLE) {
+  function setURI(string memory newURI) external onlyRole(URI_SETTER_ROLE) {
     _setURI(newURI);
   }
 
@@ -52,7 +52,7 @@ abstract contract ERC1155Common is
    * Requirements:
    * - the caller must have the `PAUSER_ROLE`.
    */
-  function pause() public onlyRole(PAUSER_ROLE) {
+  function pause() external onlyRole(PAUSER_ROLE) {
     _pause();
   }
 
@@ -61,18 +61,19 @@ abstract contract ERC1155Common is
    * Requirements:
    * - the caller must have the `PAUSER_ROLE`.
    */
-  function unpause() public onlyRole(PAUSER_ROLE) {
+  function unpause() external onlyRole(PAUSER_ROLE) {
     _unpause();
   }
 
   /// @inheritdoc IERC1155Common
-  function mint(address account, uint256 id, uint256 amount, bytes calldata data) public onlyRole(MINTER_ROLE) {
+  function mint(address account, uint256 id, uint256 amount, bytes calldata data) public virtual onlyRole(MINTER_ROLE) {
     _mint(account, id, amount, data);
   }
 
   /// @inheritdoc IERC1155Common
   function mintBatch(address to, uint256[] calldata ids, uint256[] calldata amounts, bytes calldata data)
     public
+    virtual
     onlyRole(MINTER_ROLE)
   {
     _mintBatch(to, ids, amounts, data);
@@ -84,7 +85,8 @@ abstract contract ERC1155Common is
    * - the caller must have the `MINTER_ROLE`.
    */
   function bulkMint(uint256 id, address[] calldata tos, uint256[] calldata amounts, bytes[] calldata datas)
-    external
+    public
+    virtual
     onlyRole(MINTER_ROLE)
   {
     uint256 length = tos.length;
@@ -121,7 +123,13 @@ abstract contract ERC1155Common is
   /**
    * @dev See {ERC165-supportsInterface}.
    */
-  function supportsInterface(bytes4 interfaceId) public view override(ERC1155, AccessControlEnumerable) returns (bool) {
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(ERC1155, AccessControlEnumerable)
+    returns (bool)
+  {
     return interfaceId == type(IERC1155Common).interfaceId || super.supportsInterface(interfaceId);
   }
 
@@ -135,7 +143,7 @@ abstract contract ERC1155Common is
     uint256[] memory ids,
     uint256[] memory amounts,
     bytes memory data
-  ) internal override(ERC1155, ERC1155Pausable, ERC1155Supply) {
+  ) internal virtual override(ERC1155, ERC1155Pausable, ERC1155Supply) {
     super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
   }
 }
