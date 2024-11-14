@@ -90,8 +90,7 @@ contract ERC1155Common is
     onlyRole(MINTER_ROLE)
   {
     uint256 length = tos.length;
-    require(length == amounts.length, "ERC1155: invalid array lengths");
-    require(length == datas.length, "ERC1155: invalid array lengths");
+    require(length != 0 && length == amounts.length && length == datas.length, "ERC1155: invalid array lengths");
 
     for (uint256 i; i < length; ++i) {
       _mint(tos[i], id, amounts[i], datas[i]);
@@ -101,7 +100,7 @@ contract ERC1155Common is
   /**
    * @dev See {ERC1155-uri}.
    */
-  function uri(uint256 tokenId) public view override returns (string memory) {
+  function uri(uint256 tokenId) public view virtual override returns (string memory) {
     string memory uri_ = super.uri(tokenId);
     return string.concat(uri_, tokenId.toString());
   }
@@ -109,14 +108,14 @@ contract ERC1155Common is
   /**
    * @dev Collection name.
    */
-  function name() public view returns (string memory) {
+  function name() public view virtual returns (string memory) {
     return _name;
   }
 
   /**
    * @dev Collection symbol.
    */
-  function symbol() public view returns (string memory) {
+  function symbol() public view virtual returns (string memory) {
     return _symbol;
   }
 

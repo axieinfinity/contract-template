@@ -1,17 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
 import { NFTLaunchpadCommon } from "../../launchpad/NFTLaunchpadCommon.sol";
+import { SampleERC1155, ERC1155Common } from "../SampleERC1155.sol";
 
-contract SampleNFT1155Launchpad is ERC1155, AccessControl, NFTLaunchpadCommon {
-  bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-
-  constructor(address admin, address minter, string memory uri_) ERC1155(uri_) {
-    _setupRole(DEFAULT_ADMIN_ROLE, admin);
-    _setupRole(MINTER_ROLE, minter);
-  }
+contract SampleNFT1155Launchpad is SampleERC1155, NFTLaunchpadCommon {
+  constructor(address admin, string memory name, string memory symbol, string memory uri)
+    SampleERC1155(admin, name, symbol, uri)
+  { }
 
   /// @dev Mint NFTs for the launchpad.
   function mintLaunchpad(address to, uint256 quantity, bytes calldata /* extraData */ )
@@ -35,9 +31,9 @@ contract SampleNFT1155Launchpad is ERC1155, AccessControl, NFTLaunchpadCommon {
     public
     view
     virtual
-    override(ERC1155, AccessControl, NFTLaunchpadCommon)
+    override(ERC1155Common, NFTLaunchpadCommon)
     returns (bool)
   {
-    return super.supportsInterface(interfaceId);
+    return ERC1155Common.supportsInterface(interfaceId) || NFTLaunchpadCommon.supportsInterface(interfaceId);
   }
 }
