@@ -6,7 +6,7 @@ import "./interfaces/IERC721Common.sol";
 import "./refs/ERC721Nonce.sol";
 import "./ERC721PresetMinterPauserAutoIdCustomized.sol";
 
-abstract contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, IERC721State, IERC721Common {
+contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, IERC721State, IERC721Common {
   constructor(string memory name, string memory symbol, string memory baseTokenURI)
     ERC721PresetMinterPauserAutoIdCustomized(name, symbol, baseTokenURI)
   { }

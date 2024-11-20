@@ -4,6 +4,7 @@ pragma solidity ^0.8.13;
 import "forge-std/Test.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 import { SampleERC1155, ERC1155Common } from "../../src/mock/SampleERC1155.sol";
+import { IERC165 } from "@openzeppelin/contracts/interfaces/IERC165.sol";
 import { IERC1155 } from "@openzeppelin/contracts/interfaces/IERC1155.sol";
 import { IAccessControlEnumerable } from "@openzeppelin/contracts/access/IAccessControlEnumerable.sol";
 import { IERC1155Common } from "src/interfaces/IERC1155Common.sol";
@@ -14,12 +15,12 @@ contract SampleERC1155Test is Test {
   string public constant NAME = "SampleERC1155";
   string public constant SYMBOL = "NFT1155";
   string public constant BASE_URI = "http://example.com/";
-  address[] public minters = [address(1)];
+  address admin = makeAddr("admin");
 
   ERC1155Common internal _t;
 
   function setUp() public virtual {
-    _t = new SampleERC1155(NAME, SYMBOL, BASE_URI, minters);
+    _t = new SampleERC1155(admin, NAME, SYMBOL, BASE_URI);
   }
 
   function testName() public virtual {
@@ -36,12 +37,12 @@ contract SampleERC1155Test is Test {
   }
 
   function testMint() public virtual {
-    vm.startPrank(address(1));
-    _token().mint(address(15), 15, 15);
+    vm.startPrank(admin);
+    _token().mint(address(15), 15, 15, "");
     assertEq(_token().totalSupply(15), 15);
     assertEq(_token().balanceOf(address(15), 15), 15);
 
-    _token().mint(address(20), 15, 15);
+    _token().mint(address(20), 15, 15, "");
     assertEq(_token().totalSupply(15), 30);
     assertEq(_token().balanceOf(address(20), 15), 15);
     vm.stopPrank();
@@ -51,6 +52,7 @@ contract SampleERC1155Test is Test {
     assertEq(_token().supportsInterface(type(IERC1155).interfaceId), true);
     assertEq(_token().supportsInterface(type(IAccessControlEnumerable).interfaceId), true);
     assertEq(_token().supportsInterface(type(IERC1155Common).interfaceId), true);
+    assertEq(_token().supportsInterface(type(IERC165).interfaceId), true);
   }
 
   function _token() internal view virtual returns (ERC1155Common) {

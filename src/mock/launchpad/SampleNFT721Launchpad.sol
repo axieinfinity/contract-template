@@ -31,6 +31,6 @@ contract SampleNFT721Launchpad is SampleERC721, NFTLaunchpadCommon {
     override(ERC721Common, NFTLaunchpadCommon)
     returns (bool)
   {
-    return super.supportsInterface(interfaceId);
+    return ERC721Common.supportsInterface(interfaceId) || NFTLaunchpadCommon.supportsInterface(interfaceId);
   }
 }
