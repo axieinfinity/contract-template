@@ -4,14 +4,14 @@ pragma solidity ^0.8.19;
 import { SampleERC721 } from "../SampleERC721.sol";
 
 import { ERC721Common } from "../../ERC721Common.sol";
-import { NFTPresaleCommon } from "../../launchpad/NFTPresaleCommon.sol";
+import { NFTLaunchpadCommon } from "../../launchpad/NFTLaunchpadCommon.sol";
 import { SampleERC721 } from "../SampleERC721.sol";
 
-contract SampleNFT721Presale is SampleERC721, NFTPresaleCommon {
+contract SampleERC721Launchpad is SampleERC721, NFTLaunchpadCommon {
   constructor(string memory name_, string memory symbol_, string memory uri_) SampleERC721(name_, symbol_, uri_) { }
 
-  /// @dev Mint NFTs for the presale.
-  function mintPresale(
+  /// @dev Mint NFTs for the launchpad.
+  function mintLaunchpad(
     address to,
     uint256 quantity,
     bytes calldata /* extraData */
@@ -24,9 +24,13 @@ contract SampleNFT721Presale is SampleERC721, NFTPresaleCommon {
     }
   }
 
-  function supportsInterface(
-    bytes4 interfaceId
-  ) public view virtual override(ERC721Common, NFTPresaleCommon) returns (bool) {
-    return ERC721Common.supportsInterface(interfaceId) || NFTPresaleCommon.supportsInterface(interfaceId);
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(ERC721Common, NFTLaunchpadCommon)
+    returns (bool)
+  {
+    return ERC721Common.supportsInterface(interfaceId) || NFTLaunchpadCommon.supportsInterface(interfaceId);
   }
 }

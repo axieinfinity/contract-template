@@ -4,7 +4,7 @@ pragma solidity ^0.8.19;
 import { NFTLaunchpadCommon } from "../../launchpad/NFTLaunchpadCommon.sol";
 import { SampleERC1155, ERC1155Common } from "../SampleERC1155.sol";
 
-contract SampleNFT1155Launchpad is SampleERC1155, NFTLaunchpadCommon {
+contract SampleERC1155Launchpad is SampleERC1155, NFTLaunchpadCommon {
   constructor(address admin, string memory name, string memory symbol, string memory uri)
     SampleERC1155(admin, name, symbol, uri)
   { }
