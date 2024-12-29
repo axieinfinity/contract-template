@@ -7,12 +7,10 @@ import { IERC721State } from "./interfaces/IERC721State.sol";
 import { ERC721Nonce } from "./refs/ERC721Nonce.sol";
 import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-abstract contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, IERC721State, IERC721Common {
-  constructor(
-    string memory name_,
-    string memory symbol_,
-    string memory baseTokenURI
-  ) ERC721PresetMinterPauserAutoIdCustomized(name_, symbol_, baseTokenURI) { }
+contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, IERC721State, IERC721Common {
+  constructor(string memory name, string memory symbol, string memory baseTokenURI)
+    ERC721PresetMinterPauserAutoIdCustomized(name, symbol, baseTokenURI)
+  { }
 
   /// @inheritdoc IERC721State
   function stateOf(

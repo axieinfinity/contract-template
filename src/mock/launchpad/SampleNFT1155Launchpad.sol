@@ -2,16 +2,12 @@
 pragma solidity ^0.8.19;
 
 import { NFTLaunchpadCommon } from "../../launchpad/NFTLaunchpadCommon.sol";
-import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
-import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import { SampleERC1155, ERC1155Common } from "../SampleERC1155.sol";
 
-contract SampleNFT1155Launchpad is ERC1155, AccessControl, NFTLaunchpadCommon {
-  bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-
-  constructor(address admin, address minter, string memory uri_) ERC1155(uri_) {
-    _grantRole(DEFAULT_ADMIN_ROLE, admin);
-    _grantRole(MINTER_ROLE, minter);
-  }
+contract SampleNFT1155Launchpad is SampleERC1155, NFTLaunchpadCommon {
+  constructor(address admin, string memory name, string memory symbol, string memory uri)
+    SampleERC1155(admin, name, symbol, uri)
+  { }
 
   /// @dev Mint NFTs for the launchpad.
   function mintLaunchpad(
@@ -31,9 +27,13 @@ contract SampleNFT1155Launchpad is ERC1155, AccessControl, NFTLaunchpadCommon {
     amounts[1] = 1;
   }
 
-  function supportsInterface(
-    bytes4 interfaceId
-  ) public view virtual override(ERC1155, AccessControl, NFTLaunchpadCommon) returns (bool) {
-    return super.supportsInterface(interfaceId);
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(ERC1155Common, NFTLaunchpadCommon)
+    returns (bool)
+  {
+    return ERC1155Common.supportsInterface(interfaceId) || NFTLaunchpadCommon.supportsInterface(interfaceId);
   }
 }

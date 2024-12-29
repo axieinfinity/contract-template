@@ -24,9 +24,13 @@ contract SampleNFT721Launchpad is SampleERC721, NFTLaunchpadCommon {
     }
   }
 
-  function supportsInterface(
-    bytes4 interfaceId
-  ) public view virtual override(ERC721Common, NFTLaunchpadCommon) returns (bool) {
-    return super.supportsInterface(interfaceId);
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(ERC721Common, NFTLaunchpadCommon)
+    returns (bool)
+  {
+    return ERC721Common.supportsInterface(interfaceId) || NFTLaunchpadCommon.supportsInterface(interfaceId);
   }
 }
