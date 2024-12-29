@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
-import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
-import "@openzeppelin/contracts/utils/Context.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "./interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
+import { IERC721PresetMinterPauserAutoIdCustomized } from "./interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
+import { AccessControlEnumerable } from "@openzeppelin/contracts/access/extensions/AccessControlEnumerable.sol";
+import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import { ERC721Pausable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
+import { Context } from "@openzeppelin/contracts/utils/Context.sol";
 
 /**
  * @dev ERC721PresetMinterPauserAutoId is a customized version of
@@ -22,12 +21,10 @@ contract ERC721PresetMinterPauserAutoIdCustomized is
   ERC721Burnable,
   ERC721Pausable
 {
-  using Counters for Counters.Counter;
-
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
   bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
-  Counters.Counter internal _tokenIdTracker;
+  uint256 internal _tokenIdTracker;
 
   string internal _baseTokenURI;
 
@@ -41,15 +38,17 @@ contract ERC721PresetMinterPauserAutoIdCustomized is
   constructor(string memory name, string memory symbol, string memory baseTokenURI) ERC721(name, symbol) {
     _baseTokenURI = baseTokenURI;
 
-    _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-    _setupRole(MINTER_ROLE, _msgSender());
-    _setupRole(PAUSER_ROLE, _msgSender());
+    _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+    _grantRole(MINTER_ROLE, _msgSender());
+    _grantRole(PAUSER_ROLE, _msgSender());
 
     // Token id should start from 1.
-    _tokenIdTracker.increment();
+    ++_tokenIdTracker;
   }
 
-  function setBaseURI(string memory baseTokenURI) external onlyRole(DEFAULT_ADMIN_ROLE) {
+  function setBaseURI(
+    string memory baseTokenURI
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
     _baseTokenURI = baseTokenURI;
   }
 
@@ -68,7 +67,9 @@ contract ERC721PresetMinterPauserAutoIdCustomized is
    *
    * - the caller must have the `MINTER_ROLE`.
    */
-  function mint(address to) public virtual returns (uint256 _tokenId) {
+  function mint(
+    address to
+  ) public virtual returns (uint256 _tokenId) {
     require(hasRole(MINTER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have minter role to mint");
     return _mintFor(to);
   }
@@ -101,24 +102,27 @@ contract ERC721PresetMinterPauserAutoIdCustomized is
     _unpause();
   }
 
-  function _beforeTokenTransfer(address from, address to, uint256 firstTokenId, uint256 batchSize)
-    internal
-    virtual
-    override(ERC721, ERC721Enumerable, ERC721Pausable)
-  {
-    super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
+  function _update(
+    address to,
+    uint256 tokenId,
+    address auth
+  ) internal virtual override(ERC721, ERC721Pausable, ERC721Enumerable) returns (address from) {
+    return super._update(to, tokenId, auth);
+  }
+
+  /**
+   * @dev See {ERC721-_increaseBalance}.
+   */
+  function _increaseBalance(address account, uint128 amount) internal virtual override(ERC721, ERC721Enumerable) {
+    super._increaseBalance(account, amount);
   }
 
   /**
    * @dev See {IERC165-supportsInterface}.
    */
-  function supportsInterface(bytes4 interfaceId)
-    public
-    view
-    virtual
-    override(AccessControlEnumerable, ERC721, ERC721Enumerable)
-    returns (bool)
-  {
+  function supportsInterface(
+    bytes4 interfaceId
+  ) public view virtual override(AccessControlEnumerable, ERC721, ERC721Enumerable) returns (bool) {
     return
       interfaceId == type(IERC721PresetMinterPauserAutoIdCustomized).interfaceId || super.supportsInterface(interfaceId);
   }
@@ -129,11 +133,13 @@ contract ERC721PresetMinterPauserAutoIdCustomized is
    * See {ERC721-_mint}.
    *
    */
-  function _mintFor(address to) internal virtual returns (uint256 _tokenId) {
+  function _mintFor(
+    address to
+  ) internal virtual returns (uint256 _tokenId) {
     // We cannot just use balanceOf to create the new tokenId because tokens
     // can be burned (destroyed), so we need a separate counter.
-    _tokenId = _tokenIdTracker.current();
+    _tokenId = _tokenIdTracker;
     _mint(to, _tokenId);
-    _tokenIdTracker.increment();
+    ++_tokenIdTracker;
   }
 }

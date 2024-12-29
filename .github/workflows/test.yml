@@ -7,10 +7,14 @@ on:
       - dev
       - "feature/*"
       - "features/*"
+      - "feature/*"
+      - "features/*"
   pull_request:
     branches:
       - main
       - dev
+      - "feature/*"
+      - "features/*"
       - "feature/*"
       - "features/*"
 
@@ -24,6 +28,7 @@ jobs:
 
     name: Foundry project
     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.1
         with:
@@ -36,7 +41,7 @@ jobs:
       
       - name: Install dependencies
         run: |
-          forge install
+          forge soldeer update
         id: install
 
       - name: Run Forge build
