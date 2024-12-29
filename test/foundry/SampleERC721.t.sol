@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/Test.sol";
+import { ERC721Common, SampleERC721 } from "../../src/mock/SampleERC721.sol";
 import { ERC721Nonce } from "../../src/refs/ERC721Nonce.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
-import { SampleERC721, ERC721Common } from "../../src/mock/SampleERC721.sol";
+import "forge-std/Test.sol";
+
 import { IERC721Common } from "src/interfaces/IERC721Common.sol";
 import { IERC721PresetMinterPauserAutoIdCustomized } from "src/interfaces/IERC721PresetMinterPauserAutoIdCustomized.sol";
 import { IERC721State } from "src/interfaces/IERC721State.sol";
@@ -37,7 +38,9 @@ contract SampleERC721Test is Test {
     assertNotEq(_tokenId, 0);
   }
 
-  function testTokenURI(address _from) public virtual {
+  function testTokenURI(
+    address _from
+  ) public virtual {
     vm.assume(_from.code.length == 0 && _from != address(0));
     (uint256 _tokenId,) = _mint(_from);
     assertEq(_token().tokenURI(_tokenId), string(abi.encodePacked(BASE_URI, _tokenId.toString())));
@@ -72,13 +75,15 @@ contract SampleERC721Test is Test {
     assertNotEq(_state0, _state1);
   }
 
-  function testSupportInterface() public {
+  function testSupportInterface() public view {
     assertEq(_token().supportsInterface(type(IERC721State).interfaceId), true);
     assertEq(_token().supportsInterface(type(IERC721PresetMinterPauserAutoIdCustomized).interfaceId), true);
     assertEq(_token().supportsInterface(type(IERC721Common).interfaceId), true);
   }
 
-  function _mint(address _user) internal virtual returns (uint256 _tokenId, uint256 _nonce) {
+  function _mint(
+    address _user
+  ) internal virtual returns (uint256 _tokenId, uint256 _nonce) {
     _token().mint(_user);
     uint256 _balance = _token().balanceOf(_user);
     return (_token().tokenOfOwnerByIndex(_user, _balance - 1), 1);

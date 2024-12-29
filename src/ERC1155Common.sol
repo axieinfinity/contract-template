@@ -2,15 +2,15 @@
 // Compatible with OpenZeppelin Contracts ^5.0.0
 pragma solidity ^0.8.20;
 
+import { AccessControlEnumerable } from "@openzeppelin/contracts/access/extensions/AccessControlEnumerable.sol";
 import { IERC165 } from "@openzeppelin/contracts/interfaces/IERC165.sol";
-import { AccessControlEnumerable } from "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
+import { IERC1155Common } from "./interfaces/IERC1155Common.sol";
 import { ERC1155Burnable } from "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import { ERC1155Pausable } from "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Pausable.sol";
 import { ERC1155Supply } from "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
-import { IERC1155Common } from "./interfaces/IERC1155Common.sol";
 
 contract ERC1155Common is
   ERC1155,
@@ -44,7 +44,9 @@ contract ERC1155Common is
    * Requirements:
    * - the caller must have the `URI_SETTER_ROLE`.
    */
-  function setURI(string memory newURI) external onlyRole(URI_SETTER_ROLE) {
+  function setURI(
+    string memory newURI
+  ) external onlyRole(URI_SETTER_ROLE) {
     _setURI(newURI);
   }
 
@@ -72,11 +74,12 @@ contract ERC1155Common is
   }
 
   /// @inheritdoc IERC1155Common
-  function mintBatch(address to, uint256[] calldata ids, uint256[] calldata amounts, bytes calldata data)
-    public
-    virtual
-    onlyRole(MINTER_ROLE)
-  {
+  function mintBatch(
+    address to,
+    uint256[] calldata ids,
+    uint256[] calldata amounts,
+    bytes calldata data
+  ) public virtual onlyRole(MINTER_ROLE) {
     _mintBatch(to, ids, amounts, data);
   }
 
@@ -85,11 +88,12 @@ contract ERC1155Common is
    * Requirements:
    * - the caller must have the `MINTER_ROLE`.
    */
-  function bulkMint(uint256 id, address[] calldata tos, uint256[] calldata amounts, bytes[] calldata datas)
-    public
-    virtual
-    onlyRole(MINTER_ROLE)
-  {
+  function bulkMint(
+    uint256 id,
+    address[] calldata tos,
+    uint256[] calldata amounts,
+    bytes[] calldata datas
+  ) public virtual onlyRole(MINTER_ROLE) {
     uint256 length = tos.length;
     require(length != 0 && length == amounts.length && length == datas.length, "ERC1155: invalid array lengths");
 
@@ -101,7 +105,9 @@ contract ERC1155Common is
   /**
    * @dev See {ERC1155-uri}.
    */
-  function uri(uint256 tokenId) public view virtual override returns (string memory) {
+  function uri(
+    uint256 tokenId
+  ) public view virtual override returns (string memory) {
     string memory uri_ = super.uri(tokenId);
     return string.concat(uri_, tokenId.toString());
   }
@@ -119,27 +125,21 @@ contract ERC1155Common is
   /**
    * @dev See {ERC165-supportsInterface}.
    */
-  function supportsInterface(bytes4 interfaceId)
-    public
-    view
-    virtual
-    override(IERC165, ERC1155, AccessControlEnumerable)
-    returns (bool)
-  {
+  function supportsInterface(
+    bytes4 interfaceId
+  ) public view virtual override(IERC165, ERC1155, AccessControlEnumerable) returns (bool) {
     return interfaceId == type(IERC1155Common).interfaceId || super.supportsInterface(interfaceId);
   }
 
   /**
-   * @dev See {ERC1155-_beforeTokenTransfer}.
+   * @dev See {ERC1155-_update}.
    */
-  function _beforeTokenTransfer(
-    address operator,
+  function _update(
     address from,
     address to,
     uint256[] memory ids,
-    uint256[] memory amounts,
-    bytes memory data
-  ) internal virtual override(ERC1155, ERC1155Pausable, ERC1155Supply) {
-    super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
+    uint256[] memory values
+  ) internal virtual override(ERC1155, ERC1155Supply, ERC1155Pausable) {
+    super._update(from, to, ids, values);
   }
 }

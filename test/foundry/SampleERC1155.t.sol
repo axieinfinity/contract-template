@@ -6,7 +6,7 @@ import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 import { SampleERC1155, ERC1155Common } from "../../src/mock/SampleERC1155.sol";
 import { IERC165 } from "@openzeppelin/contracts/interfaces/IERC165.sol";
 import { IERC1155 } from "@openzeppelin/contracts/interfaces/IERC1155.sol";
-import { IAccessControlEnumerable } from "@openzeppelin/contracts/access/IAccessControlEnumerable.sol";
+import { IAccessControlEnumerable } from "@openzeppelin/contracts/access/extensions/IAccessControlEnumerable.sol";
 import { IERC1155Common } from "src/interfaces/IERC1155Common.sol";
 
 contract SampleERC1155Test is Test {

@@ -13,7 +13,9 @@ interface IERC721PresetMinterPauserAutoIdCustomized {
    *
    * - the caller must have the `MINTER_ROLE`.
    */
-  function mint(address to) external returns (uint256 tokenId);
+  function mint(
+    address to
+  ) external returns (uint256 tokenId);
 
   /**
    * @dev Pauses all token transfers.

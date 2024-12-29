@@ -4,17 +4,17 @@ pragma solidity ^0.8.19;
 import { NFTLaunchpadCommon } from "../../launchpad/NFTLaunchpadCommon.sol";
 import { SampleERC1155, ERC1155Common } from "../SampleERC1155.sol";
 
-contract SampleNFT1155Launchpad is SampleERC1155, NFTLaunchpadCommon {
+contract SampleERC1155Launchpad is SampleERC1155, NFTLaunchpadCommon {
   constructor(address admin, string memory name, string memory symbol, string memory uri)
     SampleERC1155(admin, name, symbol, uri)
   { }
 
   /// @dev Mint NFTs for the launchpad.
-  function mintLaunchpad(address to, uint256 quantity, bytes calldata /* extraData */ )
-    external
-    onlyRole(MINTER_ROLE)
-    returns (uint256[] memory tokenIds, uint256[] memory amounts)
-  {
+  function mintLaunchpad(
+    address to,
+    uint256 quantity,
+    bytes calldata /* extraData */
+  ) external onlyRole(MINTER_ROLE) returns (uint256[] memory tokenIds, uint256[] memory amounts) {
     _mint(to, 3, quantity, "");
     _mint(to, 4, 1, "");
 
