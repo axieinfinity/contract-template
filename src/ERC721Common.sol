@@ -8,15 +8,16 @@ import { ERC721Nonce } from "./refs/ERC721Nonce.sol";
 import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, IERC721State, IERC721Common {
-  constructor(string memory name, string memory symbol, string memory baseTokenURI)
-    ERC721PresetMinterPauserAutoIdCustomized(name, symbol, baseTokenURI)
-  { }
+  constructor(
+    string memory name,
+    string memory symbol,
+    string memory baseTokenURI
+  ) ERC721PresetMinterPauserAutoIdCustomized(name, symbol, baseTokenURI) { }
 
   /// @inheritdoc IERC721State
   function stateOf(
     uint256 tokenId
   ) external view virtual override returns (bytes memory) {
-    _requireOwned(tokenId);
     return abi.encodePacked(ownerOf(tokenId), nonces[tokenId], tokenId);
   }
 
@@ -76,13 +77,13 @@ contract ERC721Common is ERC721Nonce, ERC721PresetMinterPauserAutoIdCustomized, 
    * - the caller must have the `MINTER_ROLE`.
    */
   function bulkMint(
-    address[] calldata _recipients
+    address[] calldata recipients
   ) external virtual onlyRole(MINTER_ROLE) returns (uint256[] memory tokenIds) {
-    require(_recipients.length > 0, "ERC721Common: invalid array lengths");
-    tokenIds = new uint256[](_recipients.length);
+    require(recipients.length > 0, "ERC721Common: invalid array lengths");
+    tokenIds = new uint256[](recipients.length);
 
-    for (uint256 _i = 0; _i < _recipients.length; _i++) {
-      tokenIds[_i] = _mintFor(_recipients[_i]);
+    for (uint256 i; i < recipients.length; i++) {
+      tokenIds[i] = _mintFor(recipients[i]);
     }
   }
 }
