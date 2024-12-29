@@ -7,7 +7,7 @@ import { ERC721Common } from "../../ERC721Common.sol";
 import { NFTLaunchpadCommon } from "../../launchpad/NFTLaunchpadCommon.sol";
 import { SampleERC721 } from "../SampleERC721.sol";
 
-contract SampleNFT721Launchpad is SampleERC721, NFTLaunchpadCommon {
+contract SampleERC721Launchpad is SampleERC721, NFTLaunchpadCommon {
   constructor(string memory name_, string memory symbol_, string memory uri_) SampleERC721(name_, symbol_, uri_) { }
 
   /// @dev Mint NFTs for the launchpad.
@@ -24,9 +24,13 @@ contract SampleNFT721Launchpad is SampleERC721, NFTLaunchpadCommon {
     }
   }
 
-  function supportsInterface(
-    bytes4 interfaceId
-  ) public view virtual override(ERC721Common, NFTLaunchpadCommon) returns (bool) {
-    return super.supportsInterface(interfaceId);
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(ERC721Common, NFTLaunchpadCommon)
+    returns (bool)
+  {
+    return ERC721Common.supportsInterface(interfaceId) || NFTLaunchpadCommon.supportsInterface(interfaceId);
   }
 }
