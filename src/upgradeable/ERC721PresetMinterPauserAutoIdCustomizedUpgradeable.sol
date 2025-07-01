@@ -93,6 +93,7 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
     _unpause();
   }
 
+  /// @dev Allow admin to set the base token URI.
   function setBaseTokenURI(
     string calldata baseTokenURI
   ) public virtual onlyRole(DEFAULT_ADMIN_ROLE) {
