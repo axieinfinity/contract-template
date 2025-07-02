@@ -34,7 +34,7 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
 
   uint256 private _tokenIdTracker;
 
-  string internal _baseTokenURI;
+  string private _baseTokenURI;
 
   /**
    * @dev This empty reserved space is put in place to allow future versions to add new
@@ -66,7 +66,7 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
   function __ERC721PresetMinterPauserAutoId_init_unchained(
     string memory baseTokenURI
   ) internal onlyInitializing {
-    _baseTokenURI = baseTokenURI;
+    _setBaseTokenURI(baseTokenURI);
 
     _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
 
@@ -97,7 +97,7 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
   function setBaseTokenURI(
     string calldata baseTokenURI
   ) public virtual onlyRole(DEFAULT_ADMIN_ROLE) {
-    _baseTokenURI = baseTokenURI;
+    _setBaseTokenURI(baseTokenURI);
   }
 
   /**
@@ -130,6 +130,15 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
     tokenId = _tokenIdTracker;
     _mint(to, tokenId);
     ++_tokenIdTracker;
+  }
+
+  /// @dev Helper function to set the base token URI.
+  function _setBaseTokenURI(
+    string memory baseTokenURI
+  ) internal {
+    require(bytes(baseTokenURI).length > 0, "Invalid base token URI");
+
+    _baseTokenURI = baseTokenURI;
   }
 
   /**
