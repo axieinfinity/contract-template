@@ -29,8 +29,6 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
   ERC721PausableUpgradeable,
   IERC721PresetMinterPauserAutoIdCustomized
 {
-  error ErrUnauthorizedAccount(address account, bytes32 neededRole);
-
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
   bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
@@ -62,48 +60,44 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
   ) internal onlyInitializing {
     __ERC721_init_unchained(name, symbol);
     __Pausable_init_unchained();
-    __ERC721PresetMinterPauserAutoId_init_unchained(name, symbol, baseTokenURI);
+    __ERC721PresetMinterPauserAutoId_init_unchained(baseTokenURI);
   }
 
   function __ERC721PresetMinterPauserAutoId_init_unchained(
-    string memory,
-    string memory,
     string memory baseTokenURI
   ) internal onlyInitializing {
-    _baseTokenURI = baseTokenURI;
+    _setBaseTokenURI(baseTokenURI);
 
     _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
 
     _grantRole(MINTER_ROLE, _msgSender());
     _grantRole(PAUSER_ROLE, _msgSender());
 
-    ++_tokenIdTracker;
+    _tokenIdTracker = _firstTokenId();
   }
 
   /// @inheritdoc IERC721PresetMinterPauserAutoIdCustomized
   function mint(
     address to
-  ) public virtual returns (uint256 tokenId) {
-    address sender = _msgSender();
-    if (!hasRole(MINTER_ROLE, sender)) revert ErrUnauthorizedAccount(sender, MINTER_ROLE);
-
+  ) public virtual onlyRole(MINTER_ROLE) returns (uint256 tokenId) {
     tokenId = _mintFor(to);
   }
 
   /// @inheritdoc IERC721PresetMinterPauserAutoIdCustomized
-  function pause() public virtual {
-    address sender = _msgSender();
-    if (!hasRole(PAUSER_ROLE, sender)) revert ErrUnauthorizedAccount(sender, PAUSER_ROLE);
-
+  function pause() public virtual onlyRole(PAUSER_ROLE) {
     _pause();
   }
 
   /// @inheritdoc IERC721PresetMinterPauserAutoIdCustomized
-  function unpause() public virtual {
-    address sender = _msgSender();
-    if (!hasRole(PAUSER_ROLE, sender)) revert ErrUnauthorizedAccount(sender, PAUSER_ROLE);
-
+  function unpause() public virtual onlyRole(PAUSER_ROLE) {
     _unpause();
+  }
+
+  /// @dev Allow admin to set the base token URI.
+  function setBaseTokenURI(
+    string calldata baseTokenURI
+  ) public virtual onlyRole(DEFAULT_ADMIN_ROLE) {
+    _setBaseTokenURI(baseTokenURI);
   }
 
   /**
@@ -136,6 +130,16 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
     tokenId = _tokenIdTracker;
     _mint(to, tokenId);
     ++_tokenIdTracker;
+  }
+
+  /// @dev Helper function to set the base token URI.
+  function _setBaseTokenURI(
+    string memory baseTokenURI
+  ) internal {
+    require(bytes(baseTokenURI).length > 0, InvalidBaseTokenURI());
+
+    _baseTokenURI = baseTokenURI;
+    emit BaseTokenURIUpdated(baseTokenURI);
   }
 
   /**
@@ -172,5 +176,10 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
     uint128 amount
   ) internal virtual override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
     super._increaseBalance(account, amount);
+  }
+
+  /// @dev Allow child contract to define the first token id. Default to 1.
+  function _firstTokenId() internal view virtual returns (uint256) {
+    return 1;
   }
 }
