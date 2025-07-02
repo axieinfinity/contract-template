@@ -2,6 +2,10 @@
 pragma solidity ^0.8.0;
 
 interface IERC721PresetMinterPauserAutoIdCustomized {
+  error InvalidBaseTokenURI();
+
+  event BaseTokenURIUpdated(string baseTokenURI);
+
   /**
    * @dev Creates a new token for `to`. Its token ID will be automatically
    * assigned (and available on the emitted {IERC721Upgradeable-Transfer} event), and the token

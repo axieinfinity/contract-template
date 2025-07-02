@@ -29,8 +29,6 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
   ERC721PausableUpgradeable,
   IERC721PresetMinterPauserAutoIdCustomized
 {
-  error InvalidBaseTokenURI();
-
   bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
   bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
 
@@ -141,6 +139,7 @@ contract ERC721PresetMinterPauserAutoIdCustomizedUpgradeable is
     require(bytes(baseTokenURI).length > 0, InvalidBaseTokenURI());
 
     _baseTokenURI = baseTokenURI;
+    emit BaseTokenURIUpdated(baseTokenURI);
   }
 
   /**
